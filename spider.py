@@ -11,7 +11,7 @@ f = open('beijing.csv', mode='a', newline='', encoding='utf-8-sig')
 write = csv.DictWriter(f, fieldnames=['title','url','text'])
 write.writeheader()
 
-for i in range(1,11):
+for i in range(1,3):
     if i == 1:
         url = 'http://whlyj.beijing.gov.cn/zwgk/xwzx/szfdt/'
     else:
@@ -31,7 +31,8 @@ for i in range(1,11):
         item['title'] = title_list[0] if title_list else None
         item['url'] = detail_url if detail_url else None
         text_list = detail_tree.xpath('//div[@class="view TRS_UEDITOR trs_paper_default trs_web trs_key4format"]/p/text()')
-        item['text'] = text_list if text_list else None
+        joined_string = ''.join(text_list)
+        item['text'] = joined_string if joined_string else None
         print(item)
         write.writerow(item)
 
