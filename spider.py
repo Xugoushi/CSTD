@@ -3,15 +3,16 @@ from lxml import etree
 import numpy as np
 import time
 import csv
+import random
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.48'
 }
 f = open('beijing.csv', mode='a', newline='', encoding='utf-8-sig')
-write = csv.DictWriter(f, fieldnames=['title','url','text'])
+write = csv.DictWriter(f, fieldnames=['title','url','text',"label"])
 write.writeheader()
 
-for i in range(1,3):
+for i in range(1,51):
     if i == 1:
         url = 'http://whlyj.beijing.gov.cn/zwgk/xwzx/szfdt/'
     else:
@@ -33,6 +34,8 @@ for i in range(1,3):
         text_list = detail_tree.xpath('//div[@class="view TRS_UEDITOR trs_paper_default trs_web trs_key4format"]/p/text()')
         joined_string = ''.join(text_list)
         item['text'] = joined_string if joined_string else None
+        rand_int = random.randint(0, 1)
+        item['label'] = rand_int
         print(item)
         write.writerow(item)
 
